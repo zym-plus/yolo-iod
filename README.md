@@ -2,6 +2,8 @@
 
 This repository contains the official implementation of YOLO-IOD, a real-time incremental object detection framework.
 
+The full version is coming soon.
+
 ## Installation
 
 Please follow the installation instructions from [YOLO-World](https://github.com/AILab-CVC/YOLO-World) to set up the environment. 
