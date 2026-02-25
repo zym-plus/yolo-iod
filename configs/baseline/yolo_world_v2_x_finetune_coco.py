@@ -8,9 +8,9 @@ custom_imports = dict(
 # hyper-parameters
 num_classes = 80
 num_training_classes = 80
-max_epochs = 10  # Maximum training epochs
+max_epochs = 20  # Maximum training epochs
 close_mosaic_epochs = 10
-save_epoch_intervals = 1
+save_epoch_intervals = 5
 text_channels = 512
 neck_embed_channels = [128, 256, _base_.last_stage_out_channels // 2]
 neck_num_heads = [4, 8, _base_.last_stage_out_channels // 2 // 32]
@@ -159,7 +159,7 @@ custom_hooks = [
 ]
 train_cfg = dict(
     max_epochs=max_epochs,
-    val_interval=5,
+    val_interval=1,
     dynamic_intervals=[((max_epochs - close_mosaic_epochs),
                         _base_.val_interval_stage2)])
 optim_wrapper = dict(
@@ -170,13 +170,19 @@ optim_wrapper = dict(
         weight_decay=weight_decay,
         batch_size_per_gpu=train_batch_size_per_gpu),
     paramwise_cfg=dict(
-        custom_keys={'backbone.text_model': dict(lr_mult=0.01),
-                     'logit_scale': dict(weight_decay=0.0)}),
+        custom_keys={
+            'backbone': dict(lr_mult=0.1, decay_mult=1.0),
+            'backbone.text_model': dict(lr_mult=0.01),
+            'logit_scale': dict(weight_decay=0.0)}),
     constructor='YOLOWv5OptimizerConstructor')
 # evaluation settings
 val_evaluator = dict(
     _delete_=True,
     type='mmdet.CocoMetric',
     proposal_nums=(100, 1, 10),
+    classwise=True,
+    metric_items=['mAP', 'mAP_50', 'mAP_75', 'mAP_s', 'mAP_m', 'mAP_l', 'AR@100', 'AR@300', 'AR@1000', 'AR_s@1000',
+                  'AR_m@1000', 'AR_l@1000'],
     ann_file='data/coco/annotations/instances_val2017.json',
     metric='bbox')
+test_evaluator = val_evaluator
