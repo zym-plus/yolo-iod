@@ -4,13 +4,13 @@ Official Pytorch implementation for "*YOLO-IOD: Towards Real Time Incremental Ob
 
 ![image-20250818142604338](./assets/framework.png)
 
-## 🚀 Contributions
+## ✨ Contributions
 
 - We introduce YOLO-IOD, an integrated and real-time IOD framework, and pinpoint three causes of forgetting: foreground-background confusion, parameter interference, and misaligned knowledge distillation conflict.
 - YOLO-IOD incorporates three modules (CPR, IKS, and CAKD) to mitigate forgetting, with particular emphasis on the dual-teacher CAKD module that alleviates distillation misalignment using both former and current teacher detection heads.
 - We introduce LoCo COCO, a practical benchmark designed to remove image overlap between stages and consider category co-occurrence, allowing for a more equitable assessment of incremental object detection.
 
-## Get Started
+## 🚀 Get Started
 
 This repo is based on [YOLO-World](https://github.com/AILab-CVC/YOLO-World). Please follow the installation of YOLO-World and make sure you can run it successfully.
 
@@ -24,7 +24,11 @@ cd third_party/mmyolo/
 pip install -v -e .
 ```
 
-## Dataset
+#### Pre-trained Models
+
+YOLO-IOD is built upon the pre-trained YOLO-World model. Please download the required YOLO-World checkpoint from the following link: [x_stage1-62b674ad.pth](https://huggingface.co/wondervictor/YOLO-World-V2.1/resolve/main/x_stage1-62b674ad.pth). After downloading, place the checkpoint file in the weights/ directory:
+
+## 📦 Dataset
 
 **Organize the dataset structure:**
 
@@ -68,11 +72,7 @@ For convenience, we also provide pre-generated LOCO COCO annotations: **[Downloa
 
 Place the downloaded files under: `data/coco/loco_annotations/`
 
-## Pre-trained Models
-
-YOLO-IOD is built upon the pre-trained YOLO-World model. Please download the required YOLO-World checkpoint from the following link: [x_stage1-62b674ad.pth](https://huggingface.co/wondervictor/YOLO-World-V2.1/resolve/main/x_stage1-62b674ad.pth). After downloading, place the checkpoint file in the weights/ directory:
-
-## Training & Evaluation
+## ⚙️ Training & Evaluation
 
 #### Traditional COCO Setting
 
@@ -113,7 +113,7 @@ bash tools/dist_train_gps.sh configs/loco_40_40/yolo_iod_loco_coco_40_40_stage1.
 bash tools/dist_train_gps.sh configs/loco_40_40/yolo_iod_loco_coco_40_40_task1.py 4 --amp
 ```
 
-## **📊 LOCO COCO Results**
+## **📈 LOCO COCO Results**
 
 We report Incremental Object Detection performance on **LOCO COCO** under different incremental settings. **CoGap** denotes the AP drop compared with the original COCO partition (lower is better).
 
