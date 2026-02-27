@@ -56,7 +56,7 @@ YOLO-IOD is built upon the pre-trained YOLO-World model. Please download the req
 python script/cpr_unknown_pseudo_label.py --setting COCO --task 40+40 --stage 0
 ```
 
-- **Base Stage Training：**Train the detector on the base categories
+- **Base Stage Training**: Train the detector on the base categories
 
 ```bash
 bash tools/dist_train_gps.sh configs/40_40/yolo_iod_coco_40_40_task0.py 4 --amp
