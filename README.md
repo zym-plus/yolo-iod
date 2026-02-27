@@ -48,7 +48,7 @@ data/
 python script/coco2017_split.py --pattern 40+40
 ```
 
-## LOCO COCO 
+## 🧪 LOCO COCO 
 
 **Data Split:** Generate the LOCO COCO incremental split from the original COCO dataset:
 
