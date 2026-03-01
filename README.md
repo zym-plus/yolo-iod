@@ -153,12 +153,10 @@ Our code is based on the project [[YOLO-World](https://github.com/AILab-CVC/YOLO
 Please cite our paper if this repo helps your research:
 
 ```
-@InProceedings{Zhang_2025_CVPR,
-    author    = {Zhang, Shizhou and Lv, Xueqiang and Xing, Yinghui and Wu, Qirui and Xu, Di and Zhang, Yanning},
-    title     = {Revisiting Generative Replay for Class Incremental Object Detection},
-    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month     = {June},
-    year      = {2025},
-    pages     = {20340-20349}
+@inproceedings{zhang2026yoloiod,
+  title     = {YOLO-IOD: Towards Real-Time Incremental Object Detection},
+  author    = {Zhang, Shizhou and Lv, Xueqiang and Xing, Yinghui and Wu, Qirui and Xu, Di and Zhao, Chen and Zhang, Yanning},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  year      = {2026},
 }
 ```
