@@ -1,0 +1,10 @@
+data/
+weights/
+work_dirs/
+*.pth
+*.pt
+*.log
+*.out
+*.err
+__pycache__/
+*.pyc
