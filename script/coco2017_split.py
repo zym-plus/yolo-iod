@@ -169,8 +169,8 @@ if __name__ == '__main__':
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    # split_coco_categories(input_json_path_train, output_dir, categories_parts, 'train')
-    # split_coco_categories(input_json_path_val, output_dir, categories_parts, 'val')
+    split_coco_categories(input_json_path_train, output_dir, categories_parts, 'train')
+    split_coco_categories(input_json_path_val, output_dir, categories_parts, 'val')
 
     incremental_class_texts = []
     for task_id, sub_classes in enumerate(categories_parts):
