@@ -167,19 +167,6 @@ class HuggingCacheCLIPLanguageBackbone(BaseModule):
             for t, feat in zip(uncached_texts, txt_feats):
                 self.cache[t] = feat.detach()  # Detach to prevent computation graph issues
 
-        # If there are uncached texts, tokenize and process them
-        if uncached_texts:
-            tokenized = self.tokenizer(text=uncached_texts, return_tensors='pt', padding=True)
-            tokenized = tokenized.to(device=self.model.device)
-            txt_outputs = self.model(**tokenized)
-            txt_feats = txt_outputs.text_embeds
-            txt_feats = txt_feats / txt_feats.norm(p=2, dim=-1, keepdim=True)
-
-            # Store in cache
-            for t, feat in zip(uncached_texts, txt_feats):
-                feat.requires_grad = False
-                self.cache[t] = feat.detach()  # Detach to prevent computation graph issues
-
         # Retrieve all features from cache in the correct order
         txt_feats = torch.stack([self.cache[t] for t in flat_text])
         txt_feats = txt_feats.reshape(-1, num_per_batch[0], txt_feats.shape[-1])
@@ -229,7 +216,7 @@ class HuggingCacheCLIPCLSPSLanguageBackbone(BaseModule):
         self.model = CLIPTP.from_pretrained(model_name, config=clip_config)
         self._freeze_modules()
         self.cache = {}
-        self.cls_unknown_feature_map = torch.load(cls_unknown_weight_path)
+        self.cls_unknown_feature_map = torch.load(cls_unknown_weight_path, map_location='cpu')
 
 
     def forward_tokenizer(self, texts):
@@ -318,7 +305,7 @@ class PseudoLanguageBackbone(BaseModule):
         if test_embed_path is None:
             self.test_embed = self.text_embed
         else:
-            self.test_embed = torch.load(test_embed_path)
+            self.test_embed = torch.load(test_embed_path, map_location='cpu')
         self.register_buffer("buff", torch.zeros([
             1,
         ]))

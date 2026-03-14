@@ -190,7 +190,7 @@ if __name__ == '__main__':
         work_dir = f'work_dirs/yolo_iod_loco_coco_{task.replace("+", "_")}_task{prev_stage}'
         class_json = f'data/coco/loco_annotations/{task}(order)/loco_class_texts_stage{prev_stage}.json'
 
-    mmdet_cfg = f'{work_dir}/{work_dir}.py'
+    mmdet_cfg = f'{work_dir}/{os.path.basename(work_dir)}.py'
     mmdet_pt = f'{work_dir}/epoch_20.pth'
     ann_save_file = ann_file.replace('.json', '_ps.json')
 
