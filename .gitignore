@@ -1,4 +1,5 @@
 data/
+datasets/
 weights/
 work_dirs/
 *.pth
