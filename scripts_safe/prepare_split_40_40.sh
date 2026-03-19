@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
-set -e
-python script/coco2017_split.py --pattern 40+40
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+bash scripts_safe/prepare_repro.sh
