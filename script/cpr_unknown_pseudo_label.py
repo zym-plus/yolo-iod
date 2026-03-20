@@ -10,6 +10,11 @@ import tqdm
 from mmdet.apis import init_detector
 from pycocotools.coco import COCO
 from sklearn.cluster import KMeans
+
+from hf_mirror import configure_hf_mirror
+
+configure_hf_mirror()
+
 from transformers import (AutoTokenizer, CLIPTextModelWithProjection)
 
 from inference import inference_detector

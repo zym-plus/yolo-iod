@@ -1,12 +1,18 @@
 # Copyright (c) Tencent Inc. All rights reserved.
 import itertools
 from typing import List, Sequence, Tuple
+
 import torch
-from torch import Tensor
-from torch.nn.modules.batchnorm import _BatchNorm
+from mmdet.utils import OptMultiConfig, ConfigType
 from mmengine.model import BaseModule
 from mmyolo.registry import MODELS
-from mmdet.utils import OptMultiConfig, ConfigType
+from torch import Tensor
+from torch.nn.modules.batchnorm import _BatchNorm
+
+from hf_mirror import configure_hf_mirror
+
+configure_hf_mirror()
+
 from transformers import (AutoTokenizer, AutoModel, CLIPTextConfig)
 from transformers import CLIPTextModelWithProjection as CLIPTP
 

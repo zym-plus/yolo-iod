@@ -4,6 +4,11 @@ import argparse
 import os.path as osp
 import numpy as np
 from PIL import Image
+
+from hf_mirror import configure_hf_mirror
+
+configure_hf_mirror()
+
 from transformers import (AutoTokenizer, AutoProcessor,
                           CLIPVisionModelWithProjection,
                           CLIPTextModelWithProjection)

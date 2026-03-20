@@ -1,6 +1,7 @@
 # Reproduce On Server
 
 This project can now be reproduced on a Linux server with the helper scripts in `scripts_safe/`.
+Hugging Face model downloads are configured to use `https://hf-mirror.com` by default, and you can still override that with `HF_ENDPOINT` or `HF_MIRROR_ENDPOINT` if needed.
 
 ## 1. Environment
 

@@ -1,6 +1,11 @@
 import json
 import argparse
 import numpy as np
+
+from hf_mirror import configure_hf_mirror
+
+configure_hf_mirror()
+
 from transformers import (AutoTokenizer, CLIPTextModelWithProjection)
 
 

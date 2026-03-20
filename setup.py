@@ -27,6 +27,7 @@ setup(
         include=["yolo_world*"],
         exclude=["docs*", "tests*", "third_party*", "assets*"]
     ),
+    py_modules=["hf_mirror"],
     package_dir={"yolo_world": "yolo_world"},
     include_package_data=False,
     zip_safe=True,

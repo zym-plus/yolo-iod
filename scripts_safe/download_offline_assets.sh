@@ -6,7 +6,10 @@ cd "$ROOT_DIR"
 
 PYTHON_BIN="${PYTHON_BIN:-python}"
 CLIP_LOCAL_DIR="${CLIP_LOCAL_DIR:-$ROOT_DIR/pretrained_models/clip-vit-base-patch32}"
-YOLOWORLD_URL="${YOLOWORLD_URL:-https://huggingface.co/wondervictor/YOLO-World-V2.1/resolve/main/x_stage1-62b674ad.pth}"
+HF_ENDPOINT="${HF_ENDPOINT:-${HF_MIRROR_ENDPOINT:-https://hf-mirror.com}}"
+export HF_ENDPOINT
+export HUGGINGFACE_HUB_ENDPOINT="${HUGGINGFACE_HUB_ENDPOINT:-$HF_ENDPOINT}"
+YOLOWORLD_URL="${YOLOWORLD_URL:-$HF_ENDPOINT/wondervictor/YOLO-World-V2.1/resolve/main/x_stage1-62b674ad.pth}"
 YOLOWORLD_DST="${YOLOWORLD_DST:-$ROOT_DIR/weights/x_stage1-62b674ad.pth}"
 
 if [[ -z "${CONDA_PREFIX:-}" ]]; then

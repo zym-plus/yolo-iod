@@ -26,7 +26,7 @@ pip install -v -e .
 
 #### Pre-trained Models
 
-YOLO-IOD is built upon the pre-trained YOLO-World model. Please download the required YOLO-World checkpoint from the following link: [x_stage1-62b674ad.pth](https://huggingface.co/wondervictor/YOLO-World-V2.1/resolve/main/x_stage1-62b674ad.pth). After downloading, place the checkpoint file in the weights/ directory:
+YOLO-IOD is built upon the pre-trained YOLO-World model. Please download the required YOLO-World checkpoint from the following link: [x_stage1-62b674ad.pth](https://hf-mirror.com/wondervictor/YOLO-World-V2.1/resolve/main/x_stage1-62b674ad.pth). After downloading, place the checkpoint file in the weights/ directory:
 
 ## 📦 Dataset
 
