@@ -36,6 +36,18 @@ data/coco/
 - generate `data/coco/annotations/40+40(order)/...`
 - generate `data/coco/loco_annotations/40+40(order)/...`
 
+If the server cannot access the internet, prepare offline assets first on a
+machine with internet:
+
+```bash
+bash scripts_safe/download_offline_assets.sh
+```
+
+This creates:
+
+- `weights/x_stage1-62b674ad.pth`
+- `pretrained_models/clip-vit-base-patch32/`
+
 ## 3. Run Experiments
 
 Single GPU:
@@ -54,6 +66,6 @@ GPUS=4 bash scripts_safe/run_loco_40_40_full.sh
 
 ## 4. Notes
 
-- The first run still needs network access to download the Hugging Face CLIP text model `openai/clip-vit-base-patch32` unless it is already cached.
+- If `pretrained_models/clip-vit-base-patch32/` exists, the project will use it directly and will not need to download CLIP from Hugging Face during runtime.
 - If you already placed `weights/x_stage1-62b674ad.pth` manually, `prepare_repro.sh` will reuse it.
 - You can force regeneration of split files with `FORCE_REGEN_SPLITS=1 bash scripts_safe/prepare_repro.sh`.

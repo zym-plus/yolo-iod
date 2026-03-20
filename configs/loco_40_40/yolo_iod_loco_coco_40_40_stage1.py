@@ -1,3 +1,5 @@
+import os
+
 _base_ = (
     '../../third_party/mmyolo/configs/yolov8/'
     'yolov8_x_mask-refine_syncbn_fast_8xb16-500e_coco.py')
@@ -18,7 +20,8 @@ base_lr = 2e-4
 weight_decay = 0.05
 train_batch_size_per_gpu = 16
 load_from = './weights/x_stage1-62b674ad.pth'
-text_model_name = 'openai/clip-vit-base-patch32'
+text_model_name = './pretrained_models/clip-vit-base-patch32' if os.path.isdir(
+    './pretrained_models/clip-vit-base-patch32') else 'openai/clip-vit-base-patch32'
 persistent_workers = False
 
 classes = ("cat", "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple", "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake", "chair", "couch", "potted plant", "bed", "dining table", "toilet", "tv", "laptop", "mouse", "remote", "keyboard", "cell phone", "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors", "teddy bear")

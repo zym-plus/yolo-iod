@@ -1,3 +1,5 @@
+import os
+
 _base_ = (
     '../../third_party/mmyolo/configs/yolov8/'
     'yolov8_x_mask-refine_syncbn_fast_8xb16-500e_coco.py')
@@ -19,7 +21,8 @@ base_lr = 2e-4
 weight_decay = 0.05
 train_batch_size_per_gpu = 16
 load_from = './weights/x_stage1-62b674ad.pth'
-text_model_name = 'openai/clip-vit-base-patch32'
+text_model_name = './pretrained_models/clip-vit-base-patch32' if os.path.isdir(
+    './pretrained_models/clip-vit-base-patch32') else 'openai/clip-vit-base-patch32'
 persistent_workers = False
 
 classes = ["person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella", "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball", "kite", "baseball bat", "baseball glove", "skateboard", "surfboard", "tennis racket", "bottle", "unknown_0", "unknown_1", "unknown_2", "unknown_3", "unknown_4", "unknown_5", "unknown_6", "unknown_7", "unknown_8", "unknown_9", "unknown_10", "unknown_11", "unknown_12", "unknown_13", "unknown_14", "unknown_15", "unknown_16", "unknown_17", "unknown_18", "unknown_19", "unknown_20", "unknown_21", "unknown_22", "unknown_23", "unknown_24", "unknown_25", "unknown_26", "unknown_27", "unknown_28", "unknown_29"]

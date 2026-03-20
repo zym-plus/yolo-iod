@@ -1,3 +1,5 @@
+import os
+
 _base_ = ('../../third_party/mmyolo/configs/yolov8/'
           'yolov8_x_syncbn_fast_8xb16-500e_coco.py')
 custom_imports = dict(imports=['yolo_world'],
@@ -16,7 +18,8 @@ base_lr = 2e-3
 weight_decay = 0.05 / 2
 train_batch_size_per_gpu = 16
 # text_model_name = '../pretrained_models/clip-vit-base-patch32-projection'
-text_model_name = 'openai/clip-vit-base-patch32'
+text_model_name = './pretrained_models/clip-vit-base-patch32' if os.path.isdir(
+    './pretrained_models/clip-vit-base-patch32') else 'openai/clip-vit-base-patch32'
 # model settings
 model = dict(
     type='YOLOWorldDetector',

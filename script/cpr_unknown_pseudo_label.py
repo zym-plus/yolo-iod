@@ -16,6 +16,9 @@ from inference import inference_detector
 
 warnings.filterwarnings('ignore')
 
+CLIP_MODEL_NAME = './pretrained_models/clip-vit-base-patch32' if os.path.isdir(
+    './pretrained_models/clip-vit-base-patch32') else 'openai/clip-vit-base-patch32'
+
 classes = [
     "cherry",
     "soap",
@@ -462,7 +465,7 @@ def merge_coco_annotations(original_coco_path, pseudo_coco_path, output_coco_pat
 
 
 def text_embedding(texts):
-    model = 'openai/clip-vit-base-patch32'
+    model = CLIP_MODEL_NAME
     tokenizer = AutoTokenizer.from_pretrained(model)
     model = CLIPTextModelWithProjection.from_pretrained(model)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
