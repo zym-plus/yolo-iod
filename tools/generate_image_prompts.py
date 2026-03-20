@@ -27,7 +27,8 @@ if __name__ == "__main__":
     processor = AutoProcessor.from_pretrained(args.model)
 
     # padding prompts
-    device = 'cuda:0'
+    import torch
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     text_model.to(device)
     texts = tokenizer(text=[' '], return_tensors='pt', padding=True)
     texts = texts.to(device)

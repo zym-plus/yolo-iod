@@ -1,0 +1,59 @@
+# Reproduce On Server
+
+This project can now be reproduced on a Linux server with the helper scripts in `scripts_safe/`.
+
+## 1. Environment
+
+Create a Python 3.10 environment and install a PyTorch build that matches your CUDA driver first.
+
+Example for CUDA 11.8:
+
+```bash
+conda create -n yolo-iod python=3.10 -y
+conda activate yolo-iod
+python -m pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu118
+bash scripts_safe/install_repro.sh
+```
+
+## 2. Dataset Layout
+
+Place the original COCO2017 dataset under `data/coco`:
+
+```text
+data/coco/
+├── train2017/
+├── val2017/
+└── annotations/
+    ├── instances_train2017.json
+    └── instances_val2017.json
+```
+
+`scripts_safe/prepare_repro.sh` will:
+
+- create `weights/` and `work_dirs/`
+- download `weights/x_stage1-62b674ad.pth` if it is missing
+- create the missing alias file `data/texts/unknown_class_texts.json`
+- generate `data/coco/annotations/40+40(order)/...`
+- generate `data/coco/loco_annotations/40+40(order)/...`
+
+## 3. Run Experiments
+
+Single GPU:
+
+```bash
+GPUS=1 bash scripts_safe/run_coco_40_40_full.sh
+GPUS=1 bash scripts_safe/run_loco_40_40_full.sh
+```
+
+Multi GPU:
+
+```bash
+GPUS=4 bash scripts_safe/run_coco_40_40_full.sh
+GPUS=4 bash scripts_safe/run_loco_40_40_full.sh
+```
+
+## 4. Notes
+
+- The first run still needs network access to download the Hugging Face CLIP text model `openai/clip-vit-base-patch32` unless it is already cached.
+- If you already placed `weights/x_stage1-62b674ad.pth` manually, `prepare_repro.sh` will reuse it.
+- You can force regeneration of split files with `FORCE_REGEN_SPLITS=1 bash scripts_safe/prepare_repro.sh`.

@@ -671,7 +671,7 @@ class YOLOWorldCrossKdHead(YOLOv8Head):
             for bbox_pred in bbox_preds
         ]
         flatten_cls_embed = [
-            cls_embed.permute(0, 2, 3, 1).reshape(num_imgs, -1, 512)
+            cls_embed.permute(0, 2, 3, 1).reshape(num_imgs, -1, self.head_module.embed_dims)
             for cls_embed in cls_embeds
         ]
 

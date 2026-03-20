@@ -24,7 +24,8 @@ if __name__ == "__main__":
     with open(args.text) as f:
         data = json.load(f)
     texts = [x[0] for x in data]
-    device = 'cuda:0'
+    import torch
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model.to(device)
     texts = tokenizer(text=texts, return_tensors='pt', padding=True)
     texts = texts.to(device)

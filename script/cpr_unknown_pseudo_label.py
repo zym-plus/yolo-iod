@@ -465,7 +465,7 @@ def text_embedding(texts):
     model = 'openai/clip-vit-base-patch32'
     tokenizer = AutoTokenizer.from_pretrained(model)
     model = CLIPTextModelWithProjection.from_pretrained(model)
-    device = 'cuda:0'
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model.to(device)
     texts = tokenizer(text=texts, return_tensors='pt', padding=True)
     texts = texts.to(device)
