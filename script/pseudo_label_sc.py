@@ -3,10 +3,13 @@ import json
 import os
 import warnings
 
+from hf_mirror import setup_hf_mirror
 from mmdet.apis import init_detector
 from pycocotools.coco import COCO
 from inference import inference_detector
 from tqdm import tqdm
+
+setup_hf_mirror()
 
 warnings.filterwarnings('ignore')
 

@@ -1,7 +1,19 @@
 # Reproduce On Server
 
 This project can now be reproduced on a Linux server with the helper scripts in `scripts_safe/`.
-Hugging Face model downloads are configured to use `https://hf-mirror.com` by default, and you can still override that with `HF_ENDPOINT` or `HF_MIRROR_ENDPOINT` if needed.
+By default, Hugging Face downloads are routed through `https://hf-mirror.com`.
+You can override the default before running scripts:
+
+```bash
+export HF_ENDPOINT=https://hf-mirror.com
+export HF_HOME=$HOME/.cache/huggingface
+export HF_HUB_CACHE=$HF_HOME/hub
+```
+
+The scripts and Python entry points print `[HF Mirror]` logs with the active
+endpoint and cache paths. If downloads still fail, check those logs first. If
+you still see `huggingface.co` requests, then some path is bypassing the mirror
+initialization.
 
 ## 1. Environment
 
@@ -15,6 +27,13 @@ conda activate yolo-iod
 python -m pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu118
 bash scripts_safe/install_repro.sh
 ```
+
+Default cache environment:
+
+- `HF_HOME=$HOME/.cache/huggingface`
+- `HF_HUB_CACHE=$HF_HOME/hub`
+- `HUGGINGFACE_HUB_CACHE=$HF_HUB_CACHE`
+- `TRANSFORMERS_CACHE=$HF_HUB_CACHE`
 
 ## 2. Dataset Layout
 

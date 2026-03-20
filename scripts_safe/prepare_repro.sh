@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+. "$SCRIPT_DIR/common/hf_env.sh"
+
 cd "$ROOT_DIR"
 
 TASK_SPLIT="${TASK_SPLIT:-40+40}"
 COCO_ROOT="${COCO_ROOT:-$ROOT_DIR/data/coco}"
 WEIGHTS_DIR="${WEIGHTS_DIR:-$ROOT_DIR/weights}"
 PRETRAIN_PATH="${PRETRAIN_PATH:-$WEIGHTS_DIR/x_stage1-62b674ad.pth}"
-HF_ENDPOINT="${HF_ENDPOINT:-${HF_MIRROR_ENDPOINT:-https://hf-mirror.com}}"
-export HF_ENDPOINT
-export HUGGINGFACE_HUB_ENDPOINT="${HUGGINGFACE_HUB_ENDPOINT:-$HF_ENDPOINT}"
 PRETRAIN_URL="${PRETRAIN_URL:-$HF_ENDPOINT/wondervictor/YOLO-World-V2.1/resolve/main/x_stage1-62b674ad.pth}"
 FORCE_REGEN_SPLITS="${FORCE_REGEN_SPLITS:-0}"
 SKIP_WEIGHT_DOWNLOAD="${SKIP_WEIGHT_DOWNLOAD:-0}"

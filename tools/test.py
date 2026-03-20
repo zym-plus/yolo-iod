@@ -3,6 +3,7 @@ import argparse
 import os
 import os.path as osp
 
+from hf_mirror import setup_hf_mirror
 from mmdet.engine.hooks.utils import trigger_visualization_hook
 from mmengine.config import Config, ConfigDict, DictAction
 from mmengine.evaluator import DumpResults
@@ -10,6 +11,8 @@ from mmengine.runner import Runner
 
 from mmyolo.registry import RUNNERS
 from mmyolo.utils import is_metainfo_lower
+
+setup_hf_mirror()
 
 
 # TODO: support fuse_conv_bn

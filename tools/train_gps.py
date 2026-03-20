@@ -4,12 +4,15 @@ import logging
 import os
 import os.path as osp
 
+from hf_mirror import setup_hf_mirror
 from mmengine.config import Config, DictAction
 from mmengine.logging import print_log
 from yolo_world.engine.runner import GPSRunner
 
 from mmyolo.registry import RUNNERS
 from mmyolo.utils import is_metainfo_lower
+
+setup_hf_mirror()
 
 
 def parse_args():

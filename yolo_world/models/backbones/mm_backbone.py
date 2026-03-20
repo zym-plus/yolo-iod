@@ -9,9 +9,9 @@ from mmyolo.registry import MODELS
 from torch import Tensor
 from torch.nn.modules.batchnorm import _BatchNorm
 
-from hf_mirror import configure_hf_mirror
+from hf_mirror import setup_hf_mirror
 
-configure_hf_mirror()
+setup_hf_mirror()
 
 from transformers import (AutoTokenizer, AutoModel, CLIPTextConfig)
 from transformers import CLIPTextModelWithProjection as CLIPTP

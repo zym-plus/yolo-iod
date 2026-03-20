@@ -24,6 +24,16 @@ cd third_party/mmyolo/
 pip install -v -e .
 ```
 
+By default, this repo routes Hugging Face downloads through `https://hf-mirror.com`. If needed, override it before running scripts:
+
+```bash
+export HF_ENDPOINT=https://hf-mirror.com
+export HF_HOME=$HOME/.cache/huggingface
+export HF_HUB_CACHE=$HF_HOME/hub
+```
+
+The scripts will print `[HF Mirror]` logs with the active endpoint and cache paths. If downloads still fail, check those logs first. If requests still go to `huggingface.co`, then some path is bypassing the mirror initialization.
+
 #### Pre-trained Models
 
 YOLO-IOD is built upon the pre-trained YOLO-World model. Please download the required YOLO-World checkpoint from the following link: [x_stage1-62b674ad.pth](https://hf-mirror.com/wondervictor/YOLO-World-V2.1/resolve/main/x_stage1-62b674ad.pth). After downloading, place the checkpoint file in the weights/ directory:
