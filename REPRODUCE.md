@@ -84,6 +84,29 @@ GPUS=4 bash scripts_safe/run_coco_40_40_full.sh
 GPUS=4 bash scripts_safe/run_loco_40_40_full.sh
 ```
 
+Batch run on server with per-step logs:
+
+```bash
+GPUS=4 bash scripts_safe/run_server_experiments.sh
+```
+
+Run only one group:
+
+```bash
+GPUS=4 EXPERIMENTS=coco bash scripts_safe/run_server_experiments.sh
+GPUS=4 EXPERIMENTS=loco bash scripts_safe/run_server_experiments.sh
+```
+
+Background run on server:
+
+```bash
+nohup env GPUS=4 RUN_NAME=exp_$(date +%Y%m%d_%H%M%S) \
+  bash scripts_safe/run_server_experiments.sh \
+  > work_dirs/server_batch.out 2>&1 &
+```
+
+Step logs will be written under `work_dirs/server_runs/<RUN_NAME>/`.
+
 ## 4. Notes
 
 - If `pretrained_models/clip-vit-base-patch32/` exists, the project will use it directly and will not need to download CLIP from Hugging Face during runtime.
