@@ -13,7 +13,7 @@ from mmengine.runner.base_loop import BaseLoop
 from torch import nn
 from torch.utils.data import DataLoader
 
-from .utils import calc_dynamic_intervals
+from .utils import calc_dynamic_intervals, get_real_model
 
 
 def im2col_2d(input_tensor, kernel_size, stride=1, padding=0):
@@ -27,11 +27,10 @@ def _freeze_all(model):
 
 def _freeze_all_linear(model):
     """Freeze the model."""
-    for name, param in model.named_parameters():
-
-        if 'module.backbone.text_model' in name:
+    for name, param in get_real_model(model).named_parameters():
+        if 'backbone.text_model' in name:
             continue
-        if 'module.backbone.image_model.stem' in name:
+        if 'backbone.image_model.stem' in name:
             param.requires_grad = False
         elif 'attn_block.guide_fc' in name:
             param.requires_grad = False
@@ -101,7 +100,9 @@ class EpochBasedTrainGPMGenLoop(BaseLoop):
         self.mat_map = {}
         self.model_name_map = {}
         self.local_rank = int(os.environ.get('LOCAL_RANK', 0))
-        self.world_size = dist.get_world_size()
+        self.world_size = (
+            dist.get_world_size()
+            if dist.is_available() and dist.is_initialized() else 1)
 
         # freeze all
         _freeze_all(self.runner.model)
@@ -141,7 +142,7 @@ class EpochBasedTrainGPMGenLoop(BaseLoop):
         self.runner.model.train()
         # TODO 样本筛选
         remaining_samples_iter = self.gpm_cal_item_num
-        model = self.runner.model
+        model = get_real_model(self.runner.model)
         self.register_hooks(model)
         for idx, data_batch in enumerate(self.dataloader):
             print_log(f"remain iter:{remaining_samples_iter}", logger='current', level=logging.INFO)
@@ -193,7 +194,7 @@ class EpochBasedTrainGPMGenLoop(BaseLoop):
                     (self.mat_map[self.model_name_map[module]], svd_results_top), dim=1)
 
         for name, module in register_model.named_modules():
-            if name.startswith('module.backbone.text_model.model.text_model.encoder'):
+            if name.startswith('backbone.text_model.model.text_model.encoder'):
                 continue
             if isinstance(module, nn.Conv2d):
                 print_log(f"Registering hook for: {name} ({module.__class__.__name__})")
@@ -210,10 +211,11 @@ class EpochBasedTrainGPMGenLoop(BaseLoop):
         self.runner.call_hook(
             'before_train_iter', batch_idx=idx, data_batch=data_batch)
 
-        data = self.runner.model.module.data_preprocessor(data_batch, training=True)
+        model = get_real_model(self.runner.model)
+        data = model.data_preprocessor(data_batch, training=True)
         losses = self.runner.model._run_forward(data, mode='loss')
 
-        _, outputs = self.runner.model.module.parse_losses(losses)  # type: ignore
+        _, outputs = model.parse_losses(losses)  # type: ignore
 
         self.runner.call_hook(
             'after_train_iter',

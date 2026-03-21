@@ -11,13 +11,13 @@ from mmengine.registry import LOOPS
 from mmengine.runner.base_loop import BaseLoop
 from torch.utils.data import DataLoader
 
-from .utils import calc_dynamic_intervals
+from .utils import calc_dynamic_intervals, get_real_model
 
 
 def _freeze_all_linear(model):
     """Freeze the model."""
-    for name, param in model.named_parameters():
-        if 'module.backbone.text_model' in name:
+    for name, param in get_real_model(model).named_parameters():
+        if 'backbone.text_model' in name:
             continue
 
 @LOOPS.register_module()
@@ -286,11 +286,12 @@ class EpochBasedTrainGPSV3Loop(BaseLoop):
         # Enable gradient accumulation mode and avoid unnecessary gradient
         # synchronization during gradient accumulation process.
         # outputs should be a dict of loss.
+        model = get_real_model(self.runner.model)
         with self.runner.optim_wrapper.optim_context(self):
-            data = self.runner.model.module.data_preprocessor(data_batch, training=True)
+            data = model.data_preprocessor(data_batch, training=True)
             losses = self.runner.model._run_forward(data, mode='loss')
 
-        parsed_losses, log_vars = self.runner.model.module.parse_losses(losses)  # type: ignore
+        parsed_losses, log_vars = model.parse_losses(losses)  # type: ignore
         outputs = log_vars
 
         loss = self.runner.optim_wrapper.scale_loss(parsed_losses)
@@ -339,15 +340,16 @@ class EpochBasedTrainGPSV3Loop(BaseLoop):
         # Enable gradient accumulation mode and avoid unnecessary gradient
         # synchronization during gradient accumulation process.
         # outputs should be a dict of loss.
+        model = get_real_model(self.runner.model)
         with self.runner.optim_wrapper.optim_context(self):
-            data = self.runner.model.module.data_preprocessor(data_batch, training=True)
+            data = model.data_preprocessor(data_batch, training=True)
             losses = self.runner.model._run_forward(data, mode='loss')
 
         for k in losses.keys():
             if 'distill' in k:
                 losses[k] = losses[k] * 0.00001
 
-        parsed_losses, log_vars = self.runner.model.module.parse_losses(losses)  # type: ignore
+        parsed_losses, log_vars = model.parse_losses(losses)  # type: ignore
         outputs = log_vars
 
         loss = self.runner.optim_wrapper.scale_loss(parsed_losses)

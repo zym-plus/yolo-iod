@@ -10,6 +10,7 @@ from torch.utils.data import DataLoader
 from mmengine.device import is_cuda_available, is_musa_available
 from mmengine.dist import get_rank, sync_random_seed
 from mmengine.logging import print_log
+from mmengine.model import is_model_wrapper
 from mmengine.utils import digit_version, is_list_of
 from mmengine.utils.dl_utils import TORCH_VERSION
 
@@ -106,3 +107,8 @@ def _get_batch_size(dataloader: dict):
     else:
         raise ValueError('dataloader should be a dict or a Dataloader '
                          f'instance, but got {type(dataloader)}')
+
+
+def get_real_model(model):
+    """Return the underlying model for wrapped and unwrapped cases."""
+    return model.module if is_model_wrapper(model) else model
