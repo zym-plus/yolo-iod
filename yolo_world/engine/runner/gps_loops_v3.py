@@ -309,8 +309,8 @@ class EpochBasedTrainGPSV3Loop(BaseLoop):
                 if len(param.shape) <= 2:
                     continue
 
-                # if param_name not in self.grad_mask:
-                #     continue
+                if param_name not in self.grad_mask:
+                    continue
                 if len(param.shape) > 2:
                     with torch.no_grad():
                         ori_param = self.ori_model[param_name]
